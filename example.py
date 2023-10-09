@@ -15,7 +15,12 @@ class RsiOscillator(Strategy):
             self.position.close()
         elif crossover(self.lower_bound, self.rsi):
             self.buy()
+    
 bt = Backtest(GOOG, RsiOscillator, cash = 10000)
-print(bt.run())
-print(bt.plot())
+stats = bt.optimize(
+        upper_bound = range(50,85,5),
+        lower_bound = range(15,45,5),
+        rsi_window = range(10,30,2),
+        maximize='Equity Final [$]')
+print(stats)
 
